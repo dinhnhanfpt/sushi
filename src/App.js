@@ -1,8 +1,15 @@
 import React, {Component} from 'react';
-import {View,Text} from 'react-native';
+import thunk from "redux-thunk";
+import { createStore, applyMiddleware, combineReducers } from 'redux';
+import reducer from '../src/reducers/Reducers';
 import { Navigation } from 'react-native-navigation';
 import R from './res/R'
-import { Store } from 'react-native-navigation/lib/dist/components/Store';
+import Application from '../src/actions/actions'
+
+const midleWare = applyMiddleware(thunk)(createStore);
+const reducers = combineReducers(reducer);
+const store = midleWare(reducers);
+
 export default class App extends Component{
     constructor(props){
         super(props);
@@ -28,6 +35,12 @@ export default class App extends Component{
             })
             
         });
+        store.subcribe();
+        store.dispatch(Application.initApp());
+        
+    }
+    startApp(){
+
     }
     
 }
